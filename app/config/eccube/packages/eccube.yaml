@@ -4,7 +4,7 @@ parameters:
     env(ECCUBE_USER_DATA_ROUTE): 'user_data'
     env(ECCUBE_ADMIN_ALLOW_HOSTS): '[]'
     env(ECCUBE_FORCE_SSL): false
-    env(ECCUBE_TEMPLATE_CODE): 'default'
+    env(ECCUBE_TEMPLATE_CODE): 'vi'
     env(ECCUBE_AUTH_MAGIC): '<change.me>'
     env(ECCUBE_COOKIE_NAME): 'eccube'
     env(ECCUBE_COOKIE_PATH): '/'
@@ -29,7 +29,7 @@ parameters:
     eccube_theme_src_dir: '%kernel.project_dir%/src/Eccube/Resource/template'
     eccube_theme_user_data_dir: '%eccube_theme_app_dir%/user_data'
     eccube_theme_front_dir: '%eccube_theme_app_dir%/%eccube.theme%'
-    eccube_theme_front_default_dir: '%eccube_theme_src_dir%/default'
+    eccube_theme_front_default_dir: '%eccube_theme_src_dir%/vi'
     eccube_theme_admin_dir: '%eccube_theme_app_dir%/admin'
     eccube_theme_admin_default_dir: '%eccube_theme_src_dir%/admin'
     eccube_html_dir: '%kernel.project_dir%/html'

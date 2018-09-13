@@ -1,0 +1,29 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+
+http://www.lockon.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<div class="ec-headerSearch">
+    <form method="get" id="searchform" action="{{ path('product_list') }}">
+        <div class="ec-headerSearch__category">
+            <div class="ec-select ec-select_search">
+                {{ form_widget(form.category_id) }}
+            </div>
+        </div>
+        <div class="ec-headerSearch__keyword">
+            <div class="ec-input">
+                {{ form_widget(form.name, {'attr': { 'placeholder' : 'common.search_keyword' }} ) }}
+                <button class="ec-headerSearch__keywordBtn" type="submit">
+                    <div class="ec-icon">
+                        <img src="{{ asset('assets/icon/search-dark.svg') }}" alt="">
+                    </div>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
