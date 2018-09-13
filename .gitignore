@@ -28,6 +28,7 @@ composer.phar
 !/html/template/admin
 !/html/template/default
 !/html/template/install
+!/html/template/vi
 /html/user_data/*
 !/html/user_data/.gitkeep
 /src/Eccube/Resource/config/*.dist.php
