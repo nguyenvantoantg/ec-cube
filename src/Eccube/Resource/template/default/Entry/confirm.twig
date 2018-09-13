@@ -38,17 +38,6 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                            </dt>
-                            <dd>
-                                {{ form.kana.kana01.vars.data }}
-                                {{ form.kana.kana02.vars.data }}
-                                {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
-                                {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>
                                 {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label'}}) }}
                             </dt>
                             <dd>
@@ -61,9 +50,6 @@ file that was distributed with this source code.
                                 {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                {# 郵便番号 #}
-                                <span>{{ 'common.postal_symbol'|trans }}</span>{{ form.postal_code.vars.data }}
-                                {{ form_widget(form.postal_code, { type : 'hidden' }) }}
                                 {# 都道府県・住所 #}
                                 {{ form.address.pref.vars.data }} {{ form.address.addr01.vars.data }} {{ form.address.addr02.vars.data }}
                                 {{ form_widget(form.address.pref, { type : 'hidden' }) }}

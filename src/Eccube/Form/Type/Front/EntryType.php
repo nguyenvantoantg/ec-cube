@@ -15,19 +15,14 @@ namespace Eccube\Form\Type\Front;
 
 use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Customer;
-use Eccube\Form\Type\AddressType;
-use Eccube\Form\Type\KanaType;
 use Eccube\Form\Type\Master\JobType;
 use Eccube\Form\Type\Master\SexType;
-use Eccube\Form\Type\NameType;
-use Eccube\Form\Type\RepeatedEmailType;
 use Eccube\Form\Type\RepeatedPasswordType;
-use Eccube\Form\Type\PhoneNumberType;
-use Eccube\Form\Type\PostalType;
+use Eccube\Util\FormUtil;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -42,13 +37,20 @@ class EntryType extends AbstractType
     protected $eccubeConfig;
 
     /**
-     * EntryType constructor.
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * NonMemberType constructor.
      *
      * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
      */
-    public function __construct(EccubeConfig $eccubeConfig)
+    public function __construct(EccubeConfig $eccubeConfig, ContainerInterface $container)
     {
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
     }
 
     /**
@@ -56,25 +58,10 @@ class EntryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $locale = $this->container->getParameter('locale');
+        FormUtil::buildCustomerInputForm($builder, $this->eccubeConfig, $locale);
+
         $builder
-            ->add('name', NameType::class, [
-                'required' => true,
-            ])
-            ->add('kana', KanaType::class, [])
-            ->add('company_name', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['eccube_stext_len'],
-                    ]),
-                ],
-            ])
-            ->add('postal_code', PostalType::class)
-            ->add('address', AddressType::class)
-            ->add('phone_number', PhoneNumberType::class, [
-                'required' => true,
-            ])
-            ->add('email', RepeatedEmailType::class)
             ->add('password', RepeatedPasswordType::class)
             ->add('birth', BirthdayType::class, [
                 'required' => false,

@@ -13,10 +13,53 @@
 
 namespace Eccube\Util;
 
+use Eccube\Common\EccubeConfig;
+use Eccube\Form\Type\AddressType;
+use Eccube\Form\Type\KanaType;
+use Eccube\Form\Type\NameType;
+use Eccube\Form\Type\PhoneNumberType;
+use Eccube\Form\Type\PostalType;
+use Eccube\Form\Type\RepeatedEmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class FormUtil
 {
+    public static function buildCustomerInputForm(FormBuilderInterface &$builder, EccubeConfig $config, $locale = 'ja')
+    {
+        $builder
+            ->add('name', NameType::class, [
+                'required' => true,
+            ])
+            ->add('company_name', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => $config->get('eccube_stext_len'),
+                    ]),
+                ],
+            ])
+            ->add('address', AddressType::class, [
+                'required' => true,
+            ])
+            ->add('phone_number', PhoneNumberType::class, [
+                'required' => true,
+            ])
+            ->add('email', RepeatedEmailType::class);
+
+        switch ($locale) {
+            case 'ja':
+                $builder->add('kana', KanaType::class, [
+                    'required' => true,
+                ])->add('postal_code', PostalType::class, [
+                    'required' => true,
+                ]);
+                break;
+        }
+    }
+
     /**
      * formオブジェクトからviewDataを取得する.
      *

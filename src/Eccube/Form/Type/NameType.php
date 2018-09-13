@@ -104,10 +104,10 @@ class NameType extends AbstractType
                     new Assert\Length([
                         'max' => $this->eccubeConfig['eccube_name_len'],
                     ]),
-                    new Assert\Regex([
-                        'pattern' => '/^[^\s ]+$/u',
-                        'message' => 'form_error.not_contain_spaces',
-                    ]),
+//                    new Assert\Regex([
+//                        'pattern' => '/^[^\s ]+$/u',
+//                        'message' => 'form_error.not_contain_spaces',
+//                    ]),
                 ],
             ],
             'firstname_options' => [
@@ -118,10 +118,10 @@ class NameType extends AbstractType
                     new Assert\Length([
                         'max' => $this->eccubeConfig['eccube_name_len'],
                     ]),
-                    new Assert\Regex([
-                        'pattern' => '/^[^\s ]+$/u',
-                        'message' => 'form_error.not_contain_spaces',
-                    ]),
+//                    new Assert\Regex([
+//                        'pattern' => '/^[^\s ]+$/u',
+//                        'message' => 'form_error.not_contain_spaces',
+//                    ]),
                 ],
             ],
             'lastname_name' => '',
