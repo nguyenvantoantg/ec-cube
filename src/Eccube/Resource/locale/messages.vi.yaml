@@ -3,72 +3,72 @@
 #====================================================================================
 
 common.select: 選択してください
-common.select__pref: 都道府県を選択
-common.select__unspecified: 指定なし
-common.select__all_products: 全ての商品
-common.required: 必須
-common.back: 戻る
-common.close: 閉じる
-common.send: 送信する
-common.registration: 登録する
-common.change: 変更
-common.delete: 削除
+common.select__pref: Chọn tỉnh thành
+common.select__unspecified: Không chỉ định
+common.select__all_products: Tất cả sản phẩm
+common.required: Bắt buộc
+common.back: Trở về
+common.close: Đóng
+common.send: Gửi
+common.registration: Đăng ký
+common.change: Thay đổi
+common.delete: Xóa
 common.ok: OK
-common.cancel: キャンセル
+common.cancel: Hủy
 common.go_to_top: トップページへ
-common.go_to_cart: カートへ進む
-common.go_to_confirm: 確認ページへ
-common.go_to_next: 次のページへ
-common.move_to_page_top: ページトップへ
-common.prev: 前へ
-common.next: 次へ
-common.first: 最初へ
-common.last: 最後へ
-common.name: お名前
+common.go_to_cart: Đi tới giỏ hàng
+common.go_to_confirm: Đi tới trang xác nhận
+common.go_to_next: Qua trang tiếp theo
+common.move_to_page_top: Lên đầu trang
+common.prev: Trước
+common.next: Sau
+common.first: Đầu tiên
+common.last: Cuối cùng
+common.name: Tên
 common.kana: お名前(カナ)
-common.first_name: 名
-common.last_name: 姓
+common.first_name: Tên
+common.last_name: Họ
 common.first_name_kana: メイ
 common.last_name_kana: セイ
-common.company_name: 会社名
-common.shop_name: 店名
-common.address: 住所
-common.pref: 都道府県
+common.company_name: Tên công ty
+common.shop_name: Tên cửa hàng
+common.address: Địa chỉ
+common.pref: Tỉnh thành
 common.postal_symbol: 〒
 common.postal_code_sample: 例：5530003
 common.search_postal_code: 郵便番号検索
 common.address_sample_01: 市区町村名(例：大阪府大阪市福島区)
-common.address_sample_02: 番地・ビル名(例：福島8丁目3-15)
-common.phone_number: 電話番号
+common.address_sample_02: Địa chỉ - Tên tòa nhà(例：福島8丁目3-15)
+common.phone_number: Số điện thoại
 common.phone_number_sample: 例：11122223333
-common.mail_address: メールアドレス
+common.mail_address: Địa chỉ email
 common.mail_address_sample: 例：ec-cube@example.com
-common.repeated_confirm: 確認のためもう一度入力してください
-common.password: パスワード
+common.repeated_confirm: Xin nhập lại một lần nữa để xác nhận
+common.password: Mật khẩu
 common.password_sample: 半角英数記号%min%〜%max%文字
-common.password_for_confirmation: パスワード(確認)
-common.gender: 性別
-common.job: 職業
-common.birth_day: 生年月日
-common.tax_include: 税込
+common.password_for_confirmation: Mật khẩu (xác nhận)
+common.gender: Giới tính
+common.job: Nghề nghiệp
+common.birth_day: Ngày tháng năm sinh
+common.tax_include: Bao gồm thuế
 common.separator__range: 〜
 common.separator__colon: ：
-common.quantity: 数量
-common.quantity__with_separator: 数量：
+common.quantity: Số lượng
+common.quantity__with_separator: Số lượng :
 common.subtotal: 小計
 common.subtotal__with_separator: 小計：
 common.total: 合計
 common.total__with_separator: 合計：
-common.delivery_fee: 送料
+common.delivery_fee: Phí vận chuyển
 common.charge: 手数料
 common.discount: 値引き
 common.point: ポイント
 common.enabled: 有効
 common.disabled: 無効
 common.user_name: '%last_name% %first_name% 様'
-common.login: ログイン
-common.remember_me: 次回から自動的にログインする
-common.signup: Đăng ký
+common.login: Đăng nhập
+common.remember_me: Đăng nhập tự động từ lần sau次回から自動的にログインする
+common.signup: 新規会員登録
 common.forgot_login: ログイン情報をお忘れですか？
 common.customer_address_count_is_over: お届け先登録の上限の%eccube_deliv_addr_max%件に達しています。お届け先を入力したい場合は、削除か変更を行ってください。
 common.search_keyword: キーワードを入力
@@ -116,8 +116,8 @@ front.block.news.title__en: NEWS
 front.block.news.title__ja: 新着情報
 front.block.news.read_more: more
 front.block.news.see_details: 詳しくはこちら
-front.block.login.customer_registration: 新規会員登録AA
-front.block.login.mypage: マイページAA
+front.block.login.customer_registration: 新規会員登録
+front.block.login.mypage: マイページ
 front.block.login.favorite: お気に入り
 front.block.login.login: ログイン
 front.block.login.logout: ログアウト
@@ -142,7 +142,7 @@ front.contact.complete_message__body: 万一、ご確認メールが届かない
 # 会員登録
 #------------------------------------------------------------------------------------
 
-front.entry.title: 新規会員登録AAB
+front.entry.title: 新規会員登録
 front.entry.terms: 利用規約
 front.entry.agree_with_terms: '<a class="ec-link" href="%url%" target="_blank">利用規約</a>に同意してお進みください'
 front.entry.agree: 同意する
