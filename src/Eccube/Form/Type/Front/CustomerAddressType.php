@@ -19,6 +19,8 @@ use Eccube\Form\Type\KanaType;
 use Eccube\Form\Type\NameType;
 use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
+use Eccube\Util\FormUtil;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,38 +35,30 @@ class CustomerAddressType extends AbstractType
     protected $eccubeConfig;
 
     /**
-     * @param EccubeConfig $eccubeConfig
+     * @var ContainerInterface
      */
-    public function __construct(EccubeConfig $eccubeConfig)
+    protected $container;
+
+    /**
+     * CustomerAddressType constructor.
+     *
+     * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
+     */
+    public function __construct(EccubeConfig $eccubeConfig, ContainerInterface $container)
     {
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', NameType::class, [
-                'required' => true,
-            ])
-            ->add('kana', KanaType::class, [
-                'required' => true,
-            ])
-            ->add('company_name', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['eccube_stext_len'],
-                    ]),
-                ],
-            ])
-            ->add('postal_code', PostalType::class)
-            ->add('address', AddressType::class)
-            ->add('phone_number', PhoneNumberType::class, [
-                'required' => true,
-            ]);
+        $locale = $this->container->getParameter('locale');
+        FormUtil::buildCustomerInputForm($builder, $this->eccubeConfig, $locale , false);
     }
 
     /**

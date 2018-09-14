@@ -20,6 +20,8 @@ use Eccube\Form\Type\NameType;
 use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
 use Eccube\Form\Validator\Email;
+use Eccube\Util\FormUtil;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -34,13 +36,20 @@ class ContactType extends AbstractType
     protected $eccubeConfig;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * ContactType constructor.
      *
      * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
      */
-    public function __construct(EccubeConfig $eccubeConfig)
+    public function __construct(EccubeConfig $eccubeConfig, ContainerInterface $container)
     {
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
     }
 
     /**
@@ -48,28 +57,9 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $locale = $this->container->getParameter('locale');
+        FormUtil::buildCustomerInputForm($builder, $this->eccubeConfig, $locale);
         $builder
-            ->add('name', NameType::class, [
-                'required' => true,
-            ])
-            ->add('kana', KanaType::class, [
-                'required' => false,
-            ])
-            ->add('postal_code', PostalType::class, [
-                'required' => false,
-            ])
-            ->add('address', AddressType::class, [
-                'required' => false,
-            ])
-            ->add('phone_number', PhoneNumberType::class, [
-                'required' => false,
-            ])
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Email(['strict' => $this->eccubeConfig['eccube_rfc_email_check']]),
-                ],
-            ])
             ->add('contents', TextareaType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),

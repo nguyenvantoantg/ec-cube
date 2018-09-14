@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class FormUtil
 {
-    public static function buildCustomerInputForm(FormBuilderInterface &$builder, EccubeConfig $config, $locale = 'ja')
+    public static function buildCustomerInputForm(FormBuilderInterface &$builder, EccubeConfig $config, $locale = 'ja', $inludeEmail = true)
     {
         $builder
             ->add('name', NameType::class, [
@@ -46,8 +46,11 @@ class FormUtil
             ])
             ->add('phone_number', PhoneNumberType::class, [
                 'required' => true,
-            ])
-            ->add('email', RepeatedEmailType::class);
+            ]);
+
+        if ($inludeEmail) {
+            $builder->add('email', RepeatedEmailType::class);
+        }
 
         switch ($locale) {
             case 'ja':

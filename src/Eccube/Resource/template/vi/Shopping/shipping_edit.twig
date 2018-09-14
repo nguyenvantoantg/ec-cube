@@ -57,19 +57,6 @@ file that was distributed with this source code.
                             </dl>
                             <dl>
                                 <dt>
-                                    {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
-                                <dd>
-                                    <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
-                                        {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': 'common.first_name_kana' }}) }}
-                                        {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': 'common.first_name_kana' }}) }}
-                                        {{ form_errors(form.kana.kana01) }}
-                                        {{ form_errors(form.kana.kana02) }}
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
                                     {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
@@ -84,18 +71,6 @@ file that was distributed with this source code.
                                     {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}"><span>{{ 'common.postal_symbol'|trans }}</span>
-                                        {{ form_widget(form.postal_code) }}
-                                        <div class="ec-zipInputHelp">
-                                            <div class="ec-zipInputHelp__icon">
-                                                <div class="ec-icon"><img
-                                                            src="{{ asset('assets/icon/question-white.svg') }}" alt="">
-                                                </div>
-                                            </div><a href="http://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ 'common.search_postal_code'|trans }}</span></a>
-                                        </div>
-                                        {{ form_errors(form.postal_code) }}
-                                    </div>
-
                                     <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
                                         {{ form_widget(form.address.pref) }}
                                         {{ form_errors(form.address.pref) }}
