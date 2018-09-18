@@ -30,6 +30,7 @@ use Eccube\Form\Validator\Email;
 use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Service\OrderStateMachine;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -57,6 +58,11 @@ class OrderType extends AbstractType
     protected $eccubeConfig;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @var OrderStateMachine
      */
     protected $orderStateMachine;
@@ -71,25 +77,31 @@ class OrderType extends AbstractType
      *
      * @param EntityManagerInterface $entityManager
      * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
      * @param OrderStateMachine $orderStateMachine
+     * @param OrderStatusRepository $orderStatusRepository
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         EccubeConfig $eccubeConfig,
+        ContainerInterface $container,
         OrderStateMachine $orderStateMachine,
         OrderStatusRepository $orderStatusRepository
     ) {
         $this->entityManager = $entityManager;
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
         $this->orderStateMachine = $orderStateMachine;
         $this->orderStatusRepository = $orderStatusRepository;
     }
+
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $locale = $this->container->getParameter('locale');
         $builder
             ->add('name', NameType::class, [
                 'required' => false,
@@ -99,14 +111,7 @@ class OrderType extends AbstractType
                     ],
                 ],
             ])
-            ->add('kana', KanaType::class, [
-                'required' => false,
-                'options' => [
-                    'constraints' => [
-                        new Assert\NotBlank(),
-                    ],
-                ],
-            ])
+
             ->add('company_name', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -115,15 +120,7 @@ class OrderType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('postal_code', PostalType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
-                'options' => [
-                    'attr' => ['class' => 'p-postal-code'],
-                ],
-            ])
+
             ->add('address', AddressType::class, [
                 'required' => false,
                 'pref_options' => [
@@ -234,6 +231,27 @@ class OrderType extends AbstractType
             ->add('OrderItemsErrors', TextType::class, [
                 'mapped' => false,
             ]);
+
+        switch ($locale) {
+            case 'ja':
+                $builder->add('kana', KanaType::class, [
+                    'required' => false,
+                    'options' => [
+                        'constraints' => [
+                            new Assert\NotBlank(),
+                        ],
+                    ],
+                ])->add('postal_code', PostalType::class, [
+                    'required' => false,
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                    ],
+                    'options' => [
+                        'attr' => ['class' => 'p-postal-code'],
+                    ],
+                ]);
+                break;
+        }
 
         $builder
             ->add($builder->create('Customer', HiddenType::class)

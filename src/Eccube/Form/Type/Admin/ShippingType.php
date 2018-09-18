@@ -29,6 +29,7 @@ use Eccube\Repository\DeliveryRepository;
 use Eccube\Repository\DeliveryTimeRepository;
 use Eccube\Util\StringUtil;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -50,6 +51,11 @@ class ShippingType extends AbstractType
     protected $eccubeConfig;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @var DeliveryRepository
      */
     protected $deliveryRepository;
@@ -68,20 +74,23 @@ class ShippingType extends AbstractType
      * ShippingType constructor.
      *
      * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
      * @param DeliveryRepository $deliveryRepository
      * @param DeliveryTimeRepository $deliveryTimeRepository
-     * @param BaseInfoRepository $baseInfoRepository
+     * @param BaseInfo $BaseInfo
      */
     public function __construct(
         EccubeConfig $eccubeConfig,
+        ContainerInterface $container,
         DeliveryRepository $deliveryRepository,
         DeliveryTimeRepository $deliveryTimeRepository,
-        BaseInfoRepository $baseInfoRepository
+        BaseInfo $BaseInfo
     ) {
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
         $this->deliveryRepository = $deliveryRepository;
         $this->deliveryTimeRepository = $deliveryTimeRepository;
-        $this->BaseInfo = $baseInfoRepository->get();
+        $this->BaseInfo = $BaseInfo;
     }
 
     /**
@@ -89,16 +98,9 @@ class ShippingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $locale = $this->container->getParameter('locale');
         $builder
             ->add('name', NameType::class, [
-                'required' => false,
-                'options' => [
-                    'constraints' => [
-                        new Assert\NotBlank(),
-                    ],
-                ],
-            ])
-            ->add('kana', KanaType::class, [
                 'required' => false,
                 'options' => [
                     'constraints' => [
@@ -113,9 +115,6 @@ class ShippingType extends AbstractType
                         'max' => $this->eccubeConfig['eccube_stext_len'],
                     ]),
                 ],
-            ])
-            ->add('postal_code', PostalType::class, [
-                'required' => true,
             ])
             ->add('address', AddressType::class, [
                 'required' => false,
@@ -322,6 +321,21 @@ class ShippingType extends AbstractType
                     $form['OrderItemsErrors']->addError(new FormError(trans('admin.order.product_item_not_found')));
                 }
             });
+
+        switch ($locale) {
+            case 'ja':
+                $builder->add('kana', KanaType::class, [
+                    'required' => false,
+                    'options' => [
+                        'constraints' => [
+                            new Assert\NotBlank(),
+                        ],
+                    ],
+                ])->add('postal_code', PostalType::class, [
+                    'required' => true,
+                ]);
+                break;
+        }
     }
 
     /**

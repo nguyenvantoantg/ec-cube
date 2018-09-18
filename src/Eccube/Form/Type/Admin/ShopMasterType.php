@@ -21,6 +21,7 @@ use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\ToggleSwitchType;
 use Eccube\Form\Type\PostalType;
 use Eccube\Form\Validator\Email;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -42,13 +43,20 @@ class ShopMasterType extends AbstractType
     protected $eccubeConfig;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * ShopMasterType constructor.
      *
      * @param EccubeConfig $eccubeConfig
+     * @param ContainerInterface $container
      */
-    public function __construct(EccubeConfig $eccubeConfig)
+    public function __construct(EccubeConfig $eccubeConfig, ContainerInterface $container)
     {
         $this->eccubeConfig = $eccubeConfig;
+        $this->container = $container;
     }
 
     /**
@@ -56,6 +64,7 @@ class ShopMasterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $locale = $this->container->getParameter('locale');
         $builder
             ->add('company_name', TextType::class, [
                 'required' => false,
@@ -84,9 +93,6 @@ class ShopMasterType extends AbstractType
                         'pattern' => '/^[[:graph:][:space:]]+$/i',
                     ]),
                 ],
-            ])
-            ->add('postal_code', PostalType::class, [
-                'required' => false,
             ])
             ->add('address', AddressType::class, [
                 'required' => false,
@@ -203,37 +209,46 @@ class ShopMasterType extends AbstractType
             ])
         ;
 
-        $builder->add(
-            $builder
-                ->create('company_kana', TextType::class, [
-                    'required' => false,
-                    'constraints' => [
-                        new Assert\Regex([
-                            'pattern' => '/^[ァ-ヶｦ-ﾟー]+$/u',
-                        ]),
-                        new Assert\Length([
-                            'max' => $this->eccubeConfig['eccube_stext_len'],
-                        ]),
-                    ],
-                ])
-                ->addEventSubscriber(new ConvertKanaListener('CV'))
-        );
 
-        $builder->add(
-            $builder
-                ->create('shop_kana', TextType::class, [
+
+        switch ($locale) {
+            case 'ja':
+                $builder->add('postal_code', PostalType::class, [
                     'required' => false,
-                    'constraints' => [
-                        new Assert\Length([
-                            'max' => $this->eccubeConfig['eccube_stext_len'],
-                        ]),
-                        new Assert\Regex([
-                            'pattern' => '/^[ァ-ヶｦ-ﾟー]+$/u',
-                        ]),
-                    ],
                 ])
-                ->addEventSubscriber(new ConvertKanaListener('CV'))
-        );
+                ->add(
+                    $builder
+                        ->create('company_kana', TextType::class, [
+                            'required' => false,
+                            'constraints' => [
+                                new Assert\Regex([
+                                    'pattern' => '/^[ァ-ヶｦ-ﾟー]+$/u',
+                                ]),
+                                new Assert\Length([
+                                    'max' => $this->eccubeConfig['eccube_stext_len'],
+                                ]),
+                            ],
+                        ])
+                        ->addEventSubscriber(new ConvertKanaListener('CV'))
+                );
+
+                $builder->add(
+                    $builder
+                        ->create('shop_kana', TextType::class, [
+                            'required' => false,
+                            'constraints' => [
+                                new Assert\Length([
+                                    'max' => $this->eccubeConfig['eccube_stext_len'],
+                                ]),
+                                new Assert\Regex([
+                                    'pattern' => '/^[ァ-ヶｦ-ﾟー]+$/u',
+                                ]),
+                            ],
+                        ])
+                        ->addEventSubscriber(new ConvertKanaListener('CV'))
+                );
+                break;
+        }
     }
 
     /**
